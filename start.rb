@@ -345,11 +345,12 @@ end
 # main code
 first_node_up = false
 priv0 = n[0]['private_key']
+BASE_CMD = 'cargo run --features metrics --  start --nodisplay --validator --verbosity 5 --dev '.freeze
 0..NUM.times do |i|
   cmd = if i.zero?
-          "cargo run --features metrics --  start --nodisplay --validator --rest-rps 9000 --dev #{i} --metrics > log#{i}.txt 2>&1"
+          BASE_CMD + "#{i} --metrics > log#{i}.txt 2>&1"
         else
-          "cargo run --features metrics --  start --nodisplay --validator --dev #{i} > log#{i}.txt 2>&1"
+          BASE_CMD + "#{i} > log#{i}.txt 2>&1"
         end
   # cmd = "cargo run --features jemalloc --  start --nodisplay --validator --dev #{i} > log#{i}.txt 2>&1"
   # cmd = "cargo run -- start --nodisplay --validator --dev #{i} > log#{i}.txt 2>&1"
