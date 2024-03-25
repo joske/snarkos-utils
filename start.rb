@@ -348,7 +348,7 @@ priv0 = n[0]['private_key']
 BASE_CMD = 'cargo run --features metrics --  start --nodisplay --validator --verbosity 5 --dev '.freeze
 0..NUM.times do |i|
   cmd = if i.zero?
-          BASE_CMD + "#{i} --metrics > log#{i}.txt 2>&1"
+          BASE_CMD + "#{i} --allow-external-peers --metrics > log#{i}.txt 2>&1"
         else
           BASE_CMD + "#{i} > log#{i}.txt 2>&1"
         end
