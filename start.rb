@@ -345,10 +345,10 @@ end
 # main code
 first_node_up = false
 priv0 = n[0]['private_key']
-BASE_CMD = 'cargo run --features metrics --  start --nodisplay --validator --verbosity 5 --dev '.freeze
+BASE_CMD = 'cargo run --features metrics --  start --nodisplay --validator --verbosity 5 --allow-external-peers --dev-num-validators 10 --dev '.freeze
 0..NUM.times do |i|
   cmd = if i.zero?
-          BASE_CMD + "#{i} --allow-external-peers --metrics > log#{i}.txt 2>&1"
+          BASE_CMD + "#{i} --metrics > log#{i}.txt 2>&1"
         else
           BASE_CMD + "#{i} > log#{i}.txt 2>&1"
         end
@@ -356,7 +356,7 @@ BASE_CMD = 'cargo run --features metrics --  start --nodisplay --validator --ver
   # cmd = "cargo run -- start --nodisplay --validator --dev #{i} > log#{i}.txt 2>&1"
   # cmd = "cargo run -- start --nodisplay --validator --dev #{i} --dev-tx-interval-ms 100 > log#{i}.txt 2>&1"
   # cmd = "cargo run --release -- start --nodisplay --validator --dev #{i} > log#{i}.txt 2>&1"
-  if i > 3
+  if i > 10
     # nodes beyond 3 need to be bonded before they can be started
     unless first_node_up
       wait_up
