@@ -1,0 +1,8 @@
+[Unit]
+Description=snarkOS Node Service
+
+[Service]
+User=root
+WorkingDirectory=/home/ubuntu
+ExecStart=/usr/bin/heaptrack /home/ubuntu/snarkos start --client --nocdn --nodisplay --bft 0.0.0.0:5000 --node 0.0.0.0:4130 --verbosity 1 --metrics --peers 54.219.107.177:4130 --rest-rps 10000000 --dev 60 --dev-num-validators 10 --rest 0.0.0.0:3030
+Restart=no
