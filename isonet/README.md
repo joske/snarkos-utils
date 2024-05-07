@@ -23,6 +23,7 @@ docker exec -ti snarkos bash
 Inside this container, make your modifications in /home/rust/build/snarkOS and build:
 
 ```bash
+export JEMALLOC_SYS_WITH_MALLOC_CONF="dirty_decay_ms:0,muzzy_decay_ms:0,confirm_conf:true"
 cargo build --release --features metrics
 ```
 
