@@ -33,6 +33,8 @@ Use the `copy_docker.sh` script (outside of the container) to copy the snarkos b
 ./copy_docker.sh <test-feature>
 ```
 
+(You can also pass in in a remote node as extra argument)
+
 ## Devnet keys
 
 Install the isonet keys and config into `$HOME/.ssh/devnet/`
