@@ -27,7 +27,7 @@ export JEMALLOC_SYS_WITH_MALLOC_CONF="dirty_decay_ms:0,muzzy_decay_ms:0,confirm_
 cargo build --release --features metrics
 ```
 
-Use the `copy_docker.sh` script to copy the snarkos binary from the container to the remote host (giving it a suffix per test)
+Use the `copy_docker.sh` script (outside of the container) to copy the snarkos binary from the container to the remote host (giving it a suffix per test)
 
 ```bash
 ./copy_docker.sh <test-feature>
