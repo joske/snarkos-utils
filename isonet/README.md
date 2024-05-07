@@ -28,6 +28,10 @@ cargo build --release --features metrics
 
 Use the `copy_docker.sh` script to copy the snarkos binary from the container to the remote host (giving it a suffix per test)
 
+```bash
+./copy_docker.sh <test-feature>
+```
+
 ## Devnet keys
 
 Install the isonet keys and config into `$HOME/.ssh/devnet/`
