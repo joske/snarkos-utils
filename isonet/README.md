@@ -61,6 +61,8 @@ sudo apt install heaptrack
 
 Copy the `snarkos-heaptrack.service` file to the remote and place it in `/etc/systemd/system`
 
+**don't forget to change the dev number - also, check if your remote is a client as this file is only for clients, adapt as necessary**
+
 Reload systemd config:
 
 ```bash
