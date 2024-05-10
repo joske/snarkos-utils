@@ -10,13 +10,13 @@ https://github.com/joske/rust-ubuntu/tree/snarkos
 Build the container
 
 ```bash
-docker build -t ubuntu-rust:snarkos .
+docker build -t rust-ubuntu:snarkos .
 ```
 
 Run the container and login (we start the container in the background with `-d` so it can stay running)
 
 ```bash
-docker run -d -ti --name snarkos --init ubuntu-rust bash
+docker run -d -ti --name snarkos --init rust-ubuntu:snarkos bash
 docker exec -ti snarkos bash
 ```
 
