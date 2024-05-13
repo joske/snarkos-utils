@@ -5,7 +5,7 @@
 Use this Dockerfile that installs rust and a host of nice tools and checks out snarkOS/snarkVM:
 https://github.com/joske/rust-ubuntu/tree/snarkos
 
-**make sure to checkout the snarkos branch - the master branch builds on a later non-LTS ubuntu**
+**make sure to checkout the snarkos branch - the master branch builds on latest LTS (24.04, noble)**
 
 Build the container
 
@@ -45,16 +45,23 @@ If we get only the output 'json' files, you can use the following oneliner to ge
 cat <output.json> | grep -v snarkos_lb | grep -E 'name|public_ip' | paste -d" " - - | sed 's/.*"name" = "\([^"]*\)".*public_ip" = "\(.*\)"/Host \1\n\tHostName \2\n\tUser ubuntu/' > ~/.ssh/devnet/config
 ```
 
+The following aliases are useful:
+
+```bash
+alias devnet-ssh='ssh -F ~/.ssh/devnet/config -i ~/.ssh/devnet/devnet-key -o StrictHostKeyChecking=no -o ConnectTimeout=5'
+alias devnet-scp='scp -F ~/.ssh/devnet/config -i ~/.ssh/devnet/devnet-key -o StrictHostKeyChecking=no -o ConnectTimeout=5'
+```
+
 You can then log in to the remote machines using
 
 ```bash
-ssh -F ~/.ssh/devnet/config -i ~/.ssh/devnet/devnet-key <remote>
+devnet-ssh <remote>
 ```
 
 You can copy local files to the remote:
 
 ```bash
-scp -F ~/.ssh/devnet/config -i ~/.ssh/devnet/devnet-key <local file> <remote>:
+devnet-scp <local file> <remote>:
 ```
 
 ## Instrument the remote host
@@ -82,8 +89,10 @@ Copy the `heaptrack.sh` script to the remote
 Copy the modified `snarkos` binary to the remote
 
 ```bash
-scp -F ~/.ssh/devnet/config -i ~/.ssh/devnet/devnet-key snarkos-test-feature <remote>:
+copy_docker.sh snarkos-test-feature <remote>
 ```
+
+The above command will pull the `/home/rust/build/snarkOS/target/release/snarkos` binary locally, rename it to `snarkos-test-feature` and copy it to `<remote>`.
 
 Symlink this binary to a name the `heaptrack.sh` script expects (the image name must be `snarkos` for the grafana process exporter to see the process)
 
