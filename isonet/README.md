@@ -39,6 +39,12 @@ Use the `copy_docker.sh` script (outside of the container) to copy the snarkos b
 
 Install the isonet keys and config into `$HOME/.ssh/devnet/`
 
+If we get only the output 'json' files, you can use the following oneliner to generate an ssh config:
+
+```bash
+cat <output.json> | grep -v snarkos_lb | grep -E 'name|public_ip' | paste -d" " - - | sed 's/.*"name" = "\([^"]*\)".*public_ip" = "\(.*\)"/Host \1\n\tHostName \2\n\tUser ubuntu/' > ~/.ssh/devnet/config
+```
+
 You can then log in to the remote machines using
 
 ```bash
