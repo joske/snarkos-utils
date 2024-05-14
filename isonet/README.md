@@ -30,7 +30,7 @@ cargo build --release --features metrics
 Use the `copy_docker.sh` script (outside of the container) to copy the snarkos binary from the container to the remote host (giving it a suffix per test)
 
 ```bash
-./copy_docker.sh <test-feature>
+./copy_docker.sh <test-feature> [remote]
 ```
 
 (You can also pass in in a remote node as extra argument)
