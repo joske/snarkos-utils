@@ -1,5 +1,4 @@
 #!/bin/bash
-NODES=$(grep 'Host ' $HOME/.ssh/devnet/config | awk '{print $2}' | xargs)
 FAILED=()
 
 if [ ! -f ~/.ssh/devnet/config ]; then
@@ -10,10 +9,29 @@ fi
 CMD="sudo systemctl stop snarkos && sudo systemctl start snarkos"
 REBOOT=0
 
-if [ "$1" == "-r" ]; then
-	CMD="sudo reboot"
-	REBOOT=1
-fi
+NODES=$(grep 'Host ' "$HOME/.ssh/devnet/config" | awk '{print $2}' | xargs)
+for arg in "$@"; do
+	case $arg in
+	-r)
+		CMD="sudo reboot"
+		REBOOT=1
+		shift
+		;;
+	-v)
+		NODES=$(grep 'Host ' "$HOME/.ssh/devnet/config" | grep -v client | awk '{print $2}' | xargs)
+		shift
+		;;
+	-h)
+		echo "Restart snarkos on all nodes in the devnet"
+		echo
+		echo "Usage: $0 [-r] [-v]"
+		echo "  -h  display this help message"
+		echo "  -r  reboot nodes"
+		echo "  -v  restart validators only"
+		exit 0
+		;;
+	esac
+done
 
 for n in $NODES; do
 	echo "restart $n"
