@@ -39,6 +39,8 @@ Use the `copy_docker.sh` script (outside of the container) to copy the snarkos b
 
 Install the isonet keys and config into `$HOME/.ssh/devnet/`
 
+I like to create separate folders for every devnet instance and symlink to `$HOME/.ssh/devnet`.
+
 If we get only the output 'json' files, you can use the following oneliner to generate an ssh config:
 
 ```bash
