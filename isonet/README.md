@@ -1,40 +1,5 @@
 # ISONET testing
 
-## Build snarkos on ubuntu 22.04 LTS
-
-Use this Dockerfile that installs rust and a host of nice tools and checks out snarkOS/snarkVM:
-https://github.com/joske/rust-ubuntu/tree/snarkos
-
-**make sure to checkout the snarkos branch - the master branch builds on latest LTS (24.04, noble)**
-
-Build the container
-
-```bash
-docker build -t rust-ubuntu:snarkos .
-```
-
-Run the container and login (we start the container in the background with `-d` so it can stay running)
-
-```bash
-docker run -d -ti --name snarkos --init rust-ubuntu:snarkos bash
-docker exec -ti snarkos bash
-```
-
-Inside this container, make your modifications in /home/rust/build/snarkOS and build:
-
-```bash
-export JEMALLOC_SYS_WITH_MALLOC_CONF="dirty_decay_ms:0,muzzy_decay_ms:0,confirm_conf:true"
-cargo build --release --features metrics
-```
-
-Use the `copy_docker.sh` script (outside of the container) to copy the snarkos binary from the container to the remote host (giving it a suffix per test)
-
-```bash
-./copy_docker.sh <test-feature> [remote]
-```
-
-(You can also pass in in a remote node as extra argument)
-
 ## Devnet keys
 
 Install the isonet keys and config into `$HOME/.ssh/devnet/`
@@ -65,6 +30,43 @@ You can copy local files to the remote:
 ```bash
 devnet-scp <local file> <remote>:
 ```
+
+## Build snarkos on ubuntu 22.04 LTS
+
+Use this Dockerfile that installs rust and a host of nice tools and checks out snarkOS/snarkVM:
+https://github.com/joske/rust-ubuntu/tree/snarkos
+
+**make sure to checkout the snarkos branch - the master branch builds on latest LTS (24.04, noble)**
+
+Build the container
+
+```bash
+docker build -t rust-ubuntu:snarkos .
+```
+
+Run the container and login (we start the container in the background with `-d` so it can stay running and even survive reboots). We pass in our local
+snarkOS and snarkVM clones so you can edit in the host environment and only build in the container.
+
+```bash
+docker run -d -ti --name snarkos --init -v <local path to snarkOS>:/home/rust/src/snarkOS -v <local path to snarkVM>:/home/rust/src/snarkVM rust-ubuntu:snarkos bash
+docker exec -ti snarkos bash
+```
+
+Inside this container, go to `/home/rust/src/snarkOS` and build:
+
+```bash
+cd /home/rust/src/snarkOS
+export JEMALLOC_SYS_WITH_MALLOC_CONF="dirty_decay_ms:0,muzzy_decay_ms:0,confirm_conf:true"
+cargo build --release --features metrics
+```
+
+Use the `devnet-scp` alias (outside of the container) to copy the snarkos binary from the container to the remote host (giving it a suffix per test)
+
+```bash
+devnet-scp target/release/snarkos <remote>:snarkos-<feature>
+```
+
+(You can also pass in in a remote node as extra argument)
 
 ## Instrument the remote host
 
