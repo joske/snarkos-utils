@@ -345,7 +345,7 @@ end
 # main code
 first_node_up = false
 priv0 = n[0]['private_key']
-BASE_CMD = 'cargo run --features metrics --  start --nodisplay --validator --verbosity 5 --allow-external-peers --dev-num-validators 10 --dev '.freeze
+BASE_CMD = 'cargo run --  start --nodisplay --validator --verbosity 5 --allow-external-peers --dev-num-validators 10 --dev '.freeze
 0..NUM.times do |i|
   cmd = if i.zero?
           BASE_CMD + "#{i} --metrics > log#{i}.txt 2>&1"
